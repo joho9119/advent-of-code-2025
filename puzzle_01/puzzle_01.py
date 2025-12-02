@@ -1,7 +1,10 @@
 from enum import Enum
-from typing import Self, TypedDict
+from typing import Self
 
-from .puzzle_1_raw_list import PARSED_LIST
+try:
+    from .puzzle_1_raw_list import PARSED_LIST
+except ImportError:
+    PARSED_LIST = [] # you can add your own here.
 
 class Direction(Enum):
     RIGHT = 1, "right"
