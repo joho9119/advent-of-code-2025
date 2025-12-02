@@ -2,7 +2,7 @@ from enum import Enum
 from typing import Self
 
 try:
-    from .puzzle_1_raw_list import PARSED_LIST
+    from .puzzle_01_raw_list import PARSED_LIST
 except ImportError:
     PARSED_LIST = [] # you can add your own here.
 
