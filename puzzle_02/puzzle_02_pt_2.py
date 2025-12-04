@@ -1,5 +1,7 @@
+from textwrap import wrap
 try:
     from puzzle_02_raw_list import RAW_EXAMPLE_LIST, REAL_PUZZLE_LIST
+
 except ImportError:
     RAW_EXAMPLE_LIST = []
     REAL_PUZZLE_LIST = []
@@ -17,21 +19,17 @@ class IdRange:
             self._register_potential_dupes(_id)
 
     def _register_potential_dupes(self, _id: int):
+
         id_as_str = str(_id)
         id_len = len(id_as_str)
+        midpoint = id_len // 2
 
-        # Early break - no symmetrical odd lengths
-        if not id_len % 2 == 0:
-            return
-        symmetry_at = int(id_len / 2)
-
-        chars = [l for l in id_as_str]
-
-        for char in chars:
-            char_occurs = chars.count(char)
-            if char_occurs > 1 and char != 1:
-                if id_as_str[0:symmetry_at] == id_as_str[symmetry_at:]:
+        for i in range(midpoint):
+            substrings = wrap(id_as_str, i+1)
+            for sub in substrings:
+                if all(sub == s for s in substrings):
                     self.candidates.add(_id)
+                    return
 
     def show_candidates(self):
         if self.candidates:
@@ -58,10 +56,14 @@ class IdRange:
         return sum(candidates)
 
 def main():
-    using_raw_example_list = IdRange.build_id_ranges(RAW_EXAMPLE_LIST)
-    print(IdRange.summarize_ranges(using_raw_example_list))
+    # using_raw_example_list = IdRange.build_id_ranges(RAW_EXAMPLE_LIST)
+    # for r in using_raw_example_list:
+    #     r.show_candidates()
+    # print(IdRange.summarize_ranges(using_raw_example_list))
 
-    using_puzzle_list = IdRange.build_id_ranges(REAL_PUZZLE_LIST)
-    print(IdRange.summarize_ranges(using_first_puzzle_list))
+    using_puzzle_list= IdRange.build_id_ranges(REAL_PUZZLE_LIST)
+    for r in using_puzzle_list:
+        r.show_candidates()
+    print(IdRange.summarize_ranges(using_puzzle_list))
 
 main()
